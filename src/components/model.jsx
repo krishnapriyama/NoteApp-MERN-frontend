@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import axios from "axios";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const Model = () => {
+const Model = ({ fetchNotesData }) => {
   const [showModal, setShowModal] = useState(false);
   const token = localStorage.getItem("userToken");
 
@@ -30,7 +31,7 @@ const Model = () => {
       }
       return error;
     },
-    onSubmit: async (values, { resetForm }) => { 
+    onSubmit: async (values, { resetForm }) => {
       setShowModal(false);
       try {
         const response = await axios.post(
@@ -43,17 +44,17 @@ const Model = () => {
             },
           }
         );
-  
+
         if (response.data.created === true) {
-          console.log("Success");
-          resetForm(); // Reset the form
+          fetchNotesData();
+          resetForm();
         }
       } catch (error) {
         console.log(error, "error");
       }
     },
   });
-  
+
   return (
     <>
       <button
@@ -122,8 +123,8 @@ const Model = () => {
                       <div className="flex items-center justify-end p-6 border-solid border-slate-200 rounded-b gap-3">
                         <button
                           className="bg-red-600 px-3 py-2 text-white text-sm rounded-lg "
-                          type="submit" onClick={()=>setShowModal(false)
-                          }
+                          type="submit"
+                          onClick={() => setShowModal(false)}
                         >
                           Close
                         </button>

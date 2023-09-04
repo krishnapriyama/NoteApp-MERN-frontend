@@ -37,11 +37,7 @@ const Login = () => {
         if (response.data.created == true) {
           localStorage.setItem("userToken", response.data.token);
           navigate("/notes");
-        } else if (
-          response &&
-          response.data &&
-          response.data.error == "Invalid password"
-        ) {
+        } else if (response.data.error == "Invalid password") {
           generateError(response.data.error, "invalid error");
         } else if (response.data.error == "Invalid Credentials") {
           generateError(response.data.error, "invalid error");
